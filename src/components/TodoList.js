@@ -1,40 +1,49 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {deleteTodo, completeTodo} from '../actions/index'
+import {deleteTodoAsync, completeTodoAsync, getTodosAsync} from '../actions/index'
+import { Link } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+
 
 class TodoList extends Component {
+    componentDidMount() {
+        this.props.onGetTodosAsync()
+    }
+
     render() {
-        console.log('Props', this.props)
         const lineThrough = {
             textDecorationLine: 'line-through', 
             textDecorationStyle: 'solid'
         }
+        const margin = {
+            margin: '10px'
+        }
         return (
-            <ol>
+            <ul>
             {this.props.todos.map(todo => {
-                if(todo.complete)
+                if(todo.completed)
                 {
                     return(
                         <li key={todo.id}>
-                        <span style={lineThrough}>
-                            {todo.title}
-                        </span>
-                        <button disabled onClick={() => this.props.onCompleteTodo(todo.id)}>Complete</button>
-                        <button onClick={() => this.props.onDeleteTodo(todo.id)}>X</button>
-                    </li>
+                            <span style={lineThrough}>
+                                {todo.title}
+                            </span>
+                            <Button style={margin} variant="contained" color="primary" disabled onClick={() => this.props.onCompleteTodo(todo.id)}>Complete</Button>
+                            <Button style={margin} variant="contained" color="secondary" onClick={() => this.props.onDeleteTodo(todo.id)}>X</Button>
+                        </li>
                     )
                 } else {
                     return (
                         <li key={todo.id}>
-                        {todo.title}
-                        <button onClick={() => this.props.onCompleteTodo(todo.id)}>Complete</button>
-                        <button onClick={() => this.props.onDeleteTodo(todo.id)}>X</button>
-                    </li>
+                            <Link to={`/details/${todo.id}`}>{todo.title}</Link>
+                            <Button style={margin} variant="contained" color="primary" onClick={() => this.props.onCompleteTodo(todo.id)}>Complete</Button>
+                            <Button style={margin} variant="contained" color="secondary" onClick={() => this.props.onDeleteTodo(todo.id)}>X</Button>
+                        </li>
                     )
                 }
             }
             )}
-        </ol>
+        </ul>
         )  
     }
 }
@@ -45,8 +54,9 @@ function mapStateToProps(todos) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onDeleteTodo: (id) => dispatch(deleteTodo(id)),
-        onCompleteTodo: (id) => dispatch(completeTodo(id))
+        onDeleteTodo: (id) => dispatch(deleteTodoAsync(id)),
+        onCompleteTodo: (id) => dispatch(completeTodoAsync(id)),
+        onGetTodosAsync: () => dispatch(getTodosAsync())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

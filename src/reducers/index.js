@@ -1,35 +1,13 @@
 import {
-    ADD_TODO,
-    DELETE_TODO,
-    COMPLETE_TODO
+    GET_TODOS
 } from '../actions'
 
 
 function todos (state = {}, action) {
-    const id = Math.random().toString(36).substr(2, 9)
     switch(action.type) {
-        case ADD_TODO:
-            return{ 
-                ...state,
-                [id]: {
-                    id: id,
-                    title: action.title,
-                    description: '',
-                    complete: false
-                }
-            }
-        case DELETE_TODO:
-            const {[action.id]: value, ...remaining} = state
+        case GET_TODOS:
             return{
-                ...remaining
-            }
-        case COMPLETE_TODO:
-            return{
-                ...state,
-                [action.id]: {
-                    ...state[action.id],
-                    complete: true
-                }
+                ...action.todos
             }
         default:
             return state

@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addTodo} from '../actions/index'
+import {createTodoAsync} from '../actions/index'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 
 class AddTodo extends React.Component{
     state = {
@@ -13,28 +15,34 @@ class AddTodo extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault()
-        if(this.props.onAddTodo)
-            this.props.onAddTodo(this.state.title)
+        if(this.props.onCreateTodo)
+            this.props.onCreateTodo(this.state.title)
         this.setState({title: ''})
     }
     
     render() {
+        const margin = {
+            margin: '20px'
+        }
         return(
             <form onSubmit={this.handleSubmit}>
-                <input 
+                <TextField
+                    style={margin}
                     type="text" 
-                    name="title" 
+                    name="title"
+                    label="Title"
+                    margin="normal"
                     value={this.state.title}
                     onChange={this.handleChange} 
                     required/>
-                <button >Add Todo</button>
+                <Button variant="contained" color="primary" type="submit" >Add Todo</Button>
             </form>
         )
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    onAddTodo: title => dispatch(addTodo(title))
+    onCreateTodo: title => dispatch(createTodoAsync(title))
 })
 
 export default connect(null, mapDispatchToProps)(AddTodo)

@@ -2,46 +2,25 @@ import React, { Component } from 'react'
 import TodoList from './TodoList'
 import AddTodo from './AddTodo'
 import { connect } from 'react-redux'
+import { Route, withRouter } from 'react-router-dom'
+import TodoDetails from './TodoDetails'
 
 class App extends Component {
-  // state = {
-  //   todos:[]
-  // }
-
-  // addTodo(todo) {
-  //   this.setState(state => ({
-  //     todos: state.todos.concat([todo])
-  //   }))
-  // }
-
-  // deleteTodo = (id) => {
-  //   this.setState(state => ({
-  //     todos: state.todos.filter(todo => todo.id !== id)
-  //   }))
-  // }
-
-  // completeTodo = (id) => {
-  //   let completedTodo = {}
-  //   for(let todo of this.state.todos) {
-  //     if(todo.id === id){
-  //       todo.complete = true
-  //       completedTodo = todo
-  //     }
-  //   }
-  //   this.setState(state => ({
-  //     todos: state.todos.concat([...completedTodo])
-  //   }))
-  // }
-
   render() {
-    console.log('Props', this.props)
     return (
       <div className="App">
-        <AddTodo />
-        <TodoList />
+        <Route exact path='/' render={() => (
+          <div>
+            <AddTodo />
+            <TodoList />
+          </div>
+        )}/>
+        <Route path='/details/:id' render={({match, history}) => (
+          <TodoDetails history={history} todoId={match.params.id}/>
+        )}/>
       </div>
     );
   }
 }
 
-export default connect()(App)
+export default withRouter(connect()(App))

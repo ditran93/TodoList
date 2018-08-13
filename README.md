@@ -408,7 +408,7 @@ import Button from './Button'; // Import a component from another file
 
 class DangerButton extends Component {
   render() {
-    return <Button color="red" />;
+    return <Button variant="contained" color="primary" color="red" />;
   }
 }
 
@@ -461,7 +461,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleClick}>Load</button>
+        <Button variant="contained" color="primary" onClick={this.handleClick}>Load</Button>
       </div>
     );
   }
@@ -470,7 +470,7 @@ class App extends Component {
 export default App;
 ```
 
-This will make `moduleA.js` and all its unique dependencies as a separate chunk that only loads after the user clicks the 'Load' button.
+This will make `moduleA.js` and all its unique dependencies as a separate chunk that only loads after the user clicks the 'Load' Button.
 
 You can also use it with `async` / `await` syntax if you prefer it.
 
@@ -547,7 +547,7 @@ If you need to disable autoprefixing for some reason, [follow this section](http
 
 ## Adding a CSS Preprocessor (Sass, Less etc.)
 
-Generally, we recommend that you don’t reuse the same CSS classes across different components. For example, instead of using a `.Button` CSS class in `<AcceptButton>` and `<RejectButton>` components, we recommend creating a `<Button>` component with its own `.Button` styles, that both `<AcceptButton>` and `<RejectButton>` can render (but [not inherit](https://facebook.github.io/react/docs/composition-vs-inheritance.html)).
+Generally, we recommend that you don’t reuse the same CSS classes across different components. For example, instead of using a `.Button` CSS class in `<AcceptButton>` and `<RejectButton>` components, we recommend creating a `<Button variant="contained" color="primary">` component with its own `.Button` styles, that both `<AcceptButton>` and `<RejectButton>` can render (but [not inherit](https://facebook.github.io/react/docs/composition-vs-inheritance.html)).
 
 Following this rule often makes CSS preprocessors less useful, as features like mixins and nesting are replaced by component composition. You can, however, integrate a CSS preprocessor if you find it valuable. In this walkthrough, we will be using Sass, but you can also use Less, or another alternative.
 
@@ -1382,7 +1382,7 @@ it('renders without crashing', () => {
 });
 ```
 
-Unlike the previous smoke test using `ReactDOM.render()`, this test only renders `<App>` and doesn’t go deeper. For example, even if `<App>` itself renders a `<Button>` that throws, this test will pass. Shallow rendering is great for isolated unit tests, but you may still want to create some full rendering tests to ensure the components integrate correctly. Enzyme supports [full rendering with `mount()`](http://airbnb.io/enzyme/docs/api/mount.html), and you can also use it for testing state changes and component lifecycle.
+Unlike the previous smoke test using `ReactDOM.render()`, this test only renders `<App>` and doesn’t go deeper. For example, even if `<App>` itself renders a `<Button variant="contained" color="primary">` that throws, this test will pass. Shallow rendering is great for isolated unit tests, but you may still want to create some full rendering tests to ensure the components integrate correctly. Enzyme supports [full rendering with `mount()`](http://airbnb.io/enzyme/docs/api/mount.html), and you can also use it for testing state changes and component lifecycle.
 
 You can read the [Enzyme documentation](http://airbnb.io/enzyme/) for more testing techniques. Enzyme documentation uses Chai and Sinon for assertions but you don’t have to use them because Jest provides built-in `expect()` and `jest.fn()` for spies.
 
@@ -1658,7 +1658,7 @@ Open the following in Chrome
 about:inspect
 ```
 
-After opening that link, the Chrome Developer Tools will be displayed. Select `inspect` on your process and a breakpoint will be set at the first line of the react script (this is done simply to give you time to open the developer tools and to prevent Jest from executing before you have time to do so). Click the button that looks like a "play" button in the upper right hand side of the screen to continue execution. When Jest executes the test that contains the debugger statement, execution will pause and you can examine the current scope and call stack.
+After opening that link, the Chrome Developer Tools will be displayed. Select `inspect` on your process and a breakpoint will be set at the first line of the react script (this is done simply to give you time to open the developer tools and to prevent Jest from executing before you have time to do so). Click the Button that looks like a "play" Button in the upper right hand side of the screen to continue execution. When Jest executes the test that contains the debugger statement, execution will pause and you can examine the current scope and call stack.
 
 >Note: the --runInBand cli option makes sure Jest runs test in the same process rather than spawning processes for individual tests. Normally Jest parallelizes test runs across processes but it is hard to debug many processes at the same time.
 
@@ -1694,7 +1694,7 @@ Use the following [`launch.json`](https://code.visualstudio.com/docs/editor/debu
 ## Developing Components in Isolation
 
 Usually, in an app, you have a lot of UI components, and each of them has many different states.
-For an example, a simple button component could have following states:
+For an example, a simple Button component could have following states:
 
 * In a regular state, with a text label.
 * In the disabled mode.
