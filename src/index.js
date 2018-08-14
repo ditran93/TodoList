@@ -1,39 +1,37 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./components/App";
+import registerServiceWorker from "./registerServiceWorker";
+import { BrowserRouter } from "react-router-dom";
 
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducer from './reducers'
-import {Provider} from 'react-redux'
-import persistState from 'redux-localstorage'
+import { createStore, applyMiddleware, compose } from "redux";
+import reducer from "./reducers";
+import { Provider } from "react-redux";
+import persistState from "redux-localstorage";
 
-import createSagaMiddleware from 'redux-saga'
-import {watcherSaga} from './actions/index'
+import createSagaMiddleware from "redux-saga";
+import { watcherSaga } from "./actions/index";
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
-const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const reduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 const enhancer = compose(
-    applyMiddleware(sagaMiddleware), 
-    reduxDevTools
-)
+  applyMiddleware(sagaMiddleware),
+  reduxDevTools
+);
 
-const store = createStore(
-    reducer,
-    enhancer,
-    persistState()
-)
+const store = createStore(reducer, enhancer, persistState());
 
-sagaMiddleware.run(watcherSaga)
+sagaMiddleware.run(watcherSaga);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </Provider>,
-    document.getElementById('root'));
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById("root")
+);
 registerServiceWorker();
