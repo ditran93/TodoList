@@ -45,7 +45,11 @@ export function editTodo(id, title, description) {
 }
 
 export function fetchTodos() {
-  return fetch("https://practiceapi.devmountain.com/api/tasks")
+  return fetch("https://practiceapi.devmountain.com/api/tasks/", {
+    method: "GET"
+  })
     .then(response => response.json())
-    .then(data => arrayToObject(data));
+    .then(data => {
+      return arrayToObject(data);
+    });
 }

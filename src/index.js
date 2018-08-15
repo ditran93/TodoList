@@ -22,7 +22,7 @@ const enhancer = compose(
   reduxDevTools
 );
 
-const store = createStore(reducer, enhancer, persistState());
+const store = createStore(reducer, enhancer);
 
 sagaMiddleware.run(watcherSaga);
 

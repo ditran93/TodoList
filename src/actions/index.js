@@ -13,6 +13,22 @@ export const CREATE_TODO_ASYNC = "CREATE_TODO_ASYNC";
 export const EDIT_TODO_ASYNC = "EDIT_TODO_ASYNC";
 export const DELETE_TODO_ASYNC = "DELETE_TODO_ASYNC";
 export const COMPLETE_TODO_ASYNC = "COMPLETE_TODO_ASYNC";
+export const ONCHANGE_EDIT_TODO_TITLE = "ONCHANGE_EDIT_TODO_TITLE";
+export const ONCHANGE_EDIT_TODO_DESCRIPTION = "ONCHANGE_EDIT_TODO_DESCRIPTION";
+
+export function onChangeEditTodoTitle(title) {
+  return {
+    type: ONCHANGE_EDIT_TODO_TITLE,
+    title
+  };
+}
+
+export function onChangeEditTodoDescription(description) {
+  return {
+    type: ONCHANGE_EDIT_TODO_DESCRIPTION,
+    description
+  };
+}
 
 export function* watcherSaga() {
   yield takeEvery(GET_TODOS_ASYNC, fetchTodosSaga);

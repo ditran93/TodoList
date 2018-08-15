@@ -21,6 +21,7 @@ class TodoList extends Component {
     const margin = {
       margin: "10px"
     };
+    console.log("props", this.props.todos);
     return (
       <ul>
         {this.props.todos.map(todo => {
@@ -76,7 +77,7 @@ class TodoList extends Component {
   }
 }
 
-function mapStateToProps(todos) {
+function mapStateToProps({ todos }) {
   return { todos: Object.keys(todos).map(key => todos[key]) };
 }
 

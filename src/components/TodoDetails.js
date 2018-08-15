@@ -5,45 +5,38 @@ import {
   getTodosAsync,
   editTodoAsync,
   deleteTodoAsync,
-  completeTodoAsync
+  completeTodoAsync,
+  onChangeEditTodoDescription,
+  onChangeEditTodoTitle
 } from "../actions/index";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 class TodoDetails extends Component {
-  state = {
-    title: "",
-    description: "",
-    completed: false
-  };
-
   componentDidMount() {
-    this.props.onGetTodosAsync();
     const todoId = this.props.todoId;
     const todo = this.props.todos[todoId];
 
     if (todo) {
-      this.setState({
-        title: todo.title,
-        description: todo.description
-      });
+      this.props.onChangeEditTitle(todo.title);
+      this.props.onChangeEditDescription(todo.description);
     }
   }
 
   handleChangeTitle = e => {
-    this.setState({ title: e.target.value });
+    this.props.onChangeEditTitle(e.target.value);
   };
 
   handleChangeDescription = e => {
-    this.setState({ description: e.target.value });
+    this.props.onChangeEditDescription(e.target.value);
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.onEditTodoAsync(
       this.props.todoId,
-      this.state.title,
-      this.state.description
+      this.props.todo.title,
+      this.props.todo.description
     );
     this.handleNavigateToHomePage();
   };
@@ -79,7 +72,7 @@ class TodoDetails extends Component {
             name="title"
             label="Title"
             style={margin}
-            value={this.state.title}
+            value={this.props.todo.title}
             onChange={this.handleChangeTitle}
             required
           />
@@ -97,7 +90,7 @@ class TodoDetails extends Component {
             label="Description"
             style={margin}
             name="description"
-            value={this.state.description}
+            value={this.props.todo.description}
             onChange={this.handleChangeDescription}
           />{" "}
           <br />
@@ -131,19 +124,23 @@ class TodoDetails extends Component {
   }
 }
 
-function mapStateToProps(todos) {
+function mapStateToProps({ todos, todo }) {
   return {
-    todos
+    todos,
+    todo
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onGetTodosAsync: () => dispatch(getTodosAsync()),
-    onEditTodoAsync: (title, description, completed) =>
-      dispatch(editTodoAsync(title, description, completed)),
+    onEditTodoAsync: (id, title, description) =>
+      dispatch(editTodoAsync(id, title, description)),
     onDeleteTodo: id => dispatch(deleteTodoAsync(id)),
-    onCompleteTodo: id => dispatch(completeTodoAsync(id))
+    onCompleteTodo: id => dispatch(completeTodoAsync(id)),
+    onChangeEditDescription: description =>
+      dispatch(onChangeEditTodoDescription(description)),
+    onChangeEditTitle: title => dispatch(onChangeEditTodoTitle(title))
   };
 }
 
